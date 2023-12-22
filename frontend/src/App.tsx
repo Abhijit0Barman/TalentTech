@@ -1,12 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Footer } from './components/Footer';
+import { Navbar } from './components/Navbar';
+import { AllRoutes } from './routes/AllRoutes';
 
 function App() {
-  return (
-    <div className="text-lg font-bold underline">
-     <h1>Abhijt Barman</h1>
-    </div>
+  return (<div className="bg-gray-200">
+    <Navbar />
+    <AllRoutes />
+    <Footer />
+  </div>
   );
 }
 
