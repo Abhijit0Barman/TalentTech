@@ -9,13 +9,13 @@ const cors=require("cors");
   
 //   const openai = new openAIAPI(configuration);
   
-  const openaiLibrary = require("openai"); // Replace with the correct library name
+//   const openaiLibrary = require("openai"); // Replace with the correct library name
 
-  const configuration = {
-    apiKey: process.env.API_KEY,
-  };
+//   const configuration = {
+//     apiKey: process.env.API_KEY,
+//   };
   
-  const openai = new openaiLibrary.Completion(configuration);
+//   const openai = new openaiLibrary.Completion(configuration);
 const app=express();
 
 app.use(cors());
