@@ -4,7 +4,7 @@ export const Role = () => {
   return (
     // <div className="  ">
 
-    <div className="mx-auto text-center max-w-fit mt-[35px] justify-center">
+    <div className="mx-auto text-center max-w-fit mt-[35px] justify-center pb-8">
 
       <p className="font-bold p-2 text-4xl text-[#1d8043]">Initiate the interview</p>
       <h1 className="text-3xl md:text-4xl font-bold mb-8">Select Your Role</h1>
