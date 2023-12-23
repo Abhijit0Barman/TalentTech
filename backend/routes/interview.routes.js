@@ -18,9 +18,9 @@ let interviewContent = {
     messages : [],
 }
 
-openRouter.get("/getting",(req,res)=>{
-    res.status(200).send("HEllo")
-})
+// openRouter.get("/getting",(req,res)=>{
+//     res.status(200).send("HEllo")
+// })
 
 openRouter.post("/start-interview",async(req,res)=>{
     try {
@@ -73,6 +73,88 @@ res.status(200).send(repsonse)
         res.status(400).json({error: error.message});
     }
 });
+
+
+
+openRouter.post("/next-answer", async (req, res) => {
+    try {
+      // Extract the user's answer from the request body
+      const userAnswer = req.body.answer;
+  
+      // Add the user's answer to the conversation state
+      interviewContent.messages.push({ role: "user", content: userAnswer });
+  
+      // Send the updated conversation state to OpenAI and get the assistant's response
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: interviewContent.messages,
+      });
+  
+      // Extract the assistant's response
+      const assistantResponse = response.choices[0]?.message?.content;
+  
+      interviewContent.messages.push({
+        role: "assistant",
+        content: assistantResponse,
+      });
+  
+      // Send the assistant's response to the user
+      console.log(interviewContent);
+      res.status(200).json({ role: "assistant", content: assistantResponse });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+
+  openRouter.post(
+    "/end-interview",
+    // jwtSecurity.verifyToken,
+    async (req, res) => {
+      try {
+        // Hardcoded prompt to end the interview
+        const endInterviewPrompt = endPrompt();
+  
+        // Add the end interview prompt to the conversation state
+        interviewContent.messages.push({
+          role: "user",
+          content: endInterviewPrompt,
+        });
+  
+        // Send the final conversation state to OpenAI and get the assistant's response
+        const response = await openai.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: interviewContent.messages,
+        });
+  
+        // Extract the assistant's response
+        const assistantResponse = response.choices[0]?.message?.content;
+        interviewContent.messages.push({
+          role: "assistant",
+          content: assistantResponse,
+        });
+  
+        // Send the interview report to the user
+        console.log(interviewContent);
+        const numbers = assistantResponse.match(/\b[0-9]\b/g);
+        const user = await UserModel.findOne(
+          { email: req.body.email },
+          { password: 0 }
+        );
+        user.scores.push({
+          Subject_Matter: numbers[0],
+          Communication: numbers[1],
+          Interview: numbers[2],
+        });
+        await user.save();
+        res.status(200).json({ role: "assistant", content: assistantResponse });
+      } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: error.message });
+      }
+    }
+  );
 
 // start promt //
 const startPrompt = (stack, options) => {
