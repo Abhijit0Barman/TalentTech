@@ -4,7 +4,7 @@ A platform for interview practice where students engage in realistic conversatio
 ### Home Page
 Welcome to the Interview Prep Platform, a web application designed to help you excel in technical interviews.
 
-<img src='/Images/Home.png' alt='Home'/>
+<img src='/frontend/public/Images/Home.png' alt='Home'/>
 
 ### Role Page
 <img src='/Images/Role.png' alt='Home'/>
