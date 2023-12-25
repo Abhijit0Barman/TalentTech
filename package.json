@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-hot-toast": "^2.4.1",
+    "react-redux": "^9.0.4"
+  }
+}
