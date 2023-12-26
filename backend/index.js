@@ -1,26 +1,22 @@
 const express = require("express");
-const { connection } = require ("./db");
+const cors = require("cors");
+const { connection } = require("./db");
 const openRouter = require("./routes/interview.routes");
 require("dotenv").config();
 
-const app= express();
- app.use(express.json());
+const app = express();
+app.use(express.json());
+app.use(cors());
 
- const port = process.env.PORT;
+app.use("/interview", openRouter);
 
- app.use("/interview",
-openRouter
- );
-
-
-
- app.listen(port , async()=>{
- try {
+app.listen(process.env.PORT, async () => {
+  try {
     await connection;
-    console.log("Database is connected");
-    // console.log("Server is  connected to port 3500");
-    console.log(`http://localhost:${process.env.PORT}`)
- } catch (error) {
+    console.log(
+      `Database is connected & Server is running at ${process.env.PORT}`
+    );
+  } catch (error) {
     console.log(error);
- }
- })
+  }
+});
